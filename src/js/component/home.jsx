@@ -2,26 +2,40 @@ import React, { useState } from "react";
 
 //create your first component
 const Home = () => {
-	const [username, setUsername] = useState("");
-	console.log(username);
+	const [task, setTask] = useState("");
+	const [todoList, setTodoList] = useState([]);
 
 	return (
 		<div>
 			<input
 				type="text"
 				className="form-control"
-				placeholder="Recipient's username"
+				placeholder="What needs to be done?"
+				onKeyDown={/*do something*/}
 				onChange={(event) => {
-					setUsername(event.target.value);
+					console.log(event.target.value);
+					setTask(event.target.value);
 				}}
+				value={task}
 			/>
-			<button className="btn btn-outline-secondary" type="button">
-				Button
+			<button
+				className="btn btn-outline-secondary"
+				type="button"
+				onClick={() => {
+					setTodoList([...todoList, task]);
+					setTask("");
+				}}>
+				Add Task
 			</button>
 			<ul>
-				{username.map(() => (
-					<li key={username}>{username}</li>
-				))}
+				{todoList.map((todo, i) => {
+					return (
+						<>
+							<li key={i}>{todo}</li>
+							<button onClick={todoList.filter((item) => {task}) }>X</button>
+						</>
+					);
+				})}
 			</ul>
 		</div>
 	);
