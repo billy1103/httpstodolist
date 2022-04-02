@@ -6,37 +6,49 @@ const Home = () => {
 	const [todoList, setTodoList] = useState([]);
 
 	return (
-		<div>
-			<input
-				type="text"
-				className="form-control"
-				placeholder="What needs to be done?"
-				onKeyDown={/*do something*/}
-				onChange={(event) => {
-					console.log(event.target.value);
-					setTask(event.target.value);
-				}}
-				value={task}
-			/>
-			<button
-				className="btn btn-outline-secondary"
-				type="button"
-				onClick={() => {
-					setTodoList([...todoList, task]);
-					setTask("");
-				}}>
-				Add Task
-			</button>
-			<ul>
+		<div className="box">
+			<h1>todos</h1>
+			<div>
+				<input
+					type="text"
+					placeholder="What needs to be done?"
+					onChange={(event) => {
+						console.log(event.target.value);
+						setTask(event.target.value);
+					}}
+					value={task}
+				/>
+				<button
+					type="button"
+					onClick={() => {
+						if (task !== "") {
+							setTodoList([...todoList, task]);
+							setTask("");
+						}
+					}}>
+					Add Task
+				</button>
+			</div>
+			<ul className="bullets">
 				{todoList.map((todo, i) => {
 					return (
-						<>
-							<li key={i}>{todo}</li>
-							<button onClick={todoList.filter((item) => {task}) }>X</button>
-						</>
+						<li key={i}>
+							{todo}
+							<button
+								onClick={() => {
+									setTodoList(
+										todoList.filter(
+											(item, index) => index !== i
+										)
+									);
+								}}>
+								X
+							</button>
+						</li>
 					);
 				})}
 			</ul>
+			<span>{todoList.length} item left</span>
 		</div>
 	);
 };

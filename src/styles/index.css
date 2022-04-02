@@ -1,12 +1,31 @@
+.bullets {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+.box {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 200px;
+    background-color: white;
+    box-shadow: 1px 1px 1px 1px hsl(0deg 0% 73%);
+}
 
-/* 
+body {
+    background-color:  hsl(0deg 0% 95%);;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
-
-*/
+h1 {
+    color: hsl(0deg 32% 90%);
+    margin: auto;
+    font-size: 100px;
+    font-weight: 100;
+}
+span {
+    font-size: 12px;
+    padding: 3%;
+}
