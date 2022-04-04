@@ -8,7 +8,7 @@ const Home = () => {
 	return (
 		<div className="box">
 			<h1>todos</h1>
-			<div>
+			<div className="ib">
 				<input
 					type="text"
 					placeholder="What needs to be done?"
