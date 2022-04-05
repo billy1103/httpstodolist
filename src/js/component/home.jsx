@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //create your first component
 const Home = () => {
 	const [task, setTask] = useState("");
 	const [todoList, setTodoList] = useState([]);
+	useEffect(() => {
+		var requestOptions = {
+			method: "GET",
+			redirect: "follow",
+		};
+
+		fetch("https://assets.breatheco.de/apis/fake/todos/", requestOptions)
+			.then((response) => response.json())
+			.then((result) => setTodoList(result))
+			.catch((error) => console.log("error", error));
+	}, []);
+	console.log(setTodoList);
 
 	return (
 		<div className="box">
