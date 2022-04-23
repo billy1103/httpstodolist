@@ -1,21 +1,54 @@
 import React, { useState, useEffect } from "react";
 
-//create your first component
 const Home = () => {
 	const [task, setTask] = useState("");
 	const [todoList, setTodoList] = useState([]);
-	useEffect(() => {
-		var requestOptions = {
-			method: "GET",
-			redirect: "follow",
-		};
 
-		fetch("https://assets.breatheco.de/apis/fake/todos/", requestOptions)
+	const getTodos = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/billy")
 			.then((response) => response.json())
 			.then((result) => setTodoList(result))
 			.catch((error) => console.log("error", error));
+	};
+
+	useEffect(() => {
+		getTodos();
 	}, []);
-	console.log(setTodoList);
+
+	console.log(todoList);
+
+	const addTodo = (newItem) => {
+		const newTask = {
+			label: newItem,
+			done: false,
+		};
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/billy", {
+			method: "PUT",
+			redirect: "follow",
+			headers: {
+				"Content-type": "application/json",
+			},
+			body: JSON.stringify([...todoList, newTask]),
+		})
+			.then((response) => (response.status === 200 ? getTodos() : ""))
+			.catch((error) => console.log("error", error));
+	};
+
+	const deleteTodo = (index) => {
+		const rid = setTodoList().list.filter((item, i) => index !== i);
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/billy", {
+			method: "PUT",
+			redirect: "follow",
+			headers: {
+				"Content-type": "application/json",
+			},
+			body: JSON.stringify(rid),
+		})
+			.then((response) =>
+				response.status === 200 ? setTodoList({ list: rid }) : ""
+			)
+			.catch((error) => console.log("error", error));
+	};
 
 	return (
 		<div className="box">
@@ -34,7 +67,7 @@ const Home = () => {
 					type="button"
 					onClick={() => {
 						if (task !== "") {
-							setTodoList([...todoList, task]);
+							addTodo(task);
 							setTask("");
 						}
 					}}>
@@ -45,7 +78,7 @@ const Home = () => {
 				{todoList.map((todo, i) => {
 					return (
 						<li key={i}>
-							{todo}
+							{todo.label}
 							<button
 								onClick={() => {
 									setTodoList(
