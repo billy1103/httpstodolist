@@ -34,19 +34,16 @@ const Home = () => {
 			.catch((error) => console.log("error", error));
 	};
 
-	const deleteTodo = (index) => {
-		const rid = setTodoList().list.filter((item, i) => index !== i);
+	const deleteTodo = (filteredList) => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/billy", {
 			method: "PUT",
 			redirect: "follow",
 			headers: {
 				"Content-type": "application/json",
 			},
-			body: JSON.stringify(rid),
+			body: JSON.stringify(filteredList),
 		})
-			.then((response) =>
-				response.status === 200 ? setTodoList({ list: rid }) : ""
-			)
+			.then((response) => (response.status === 200 ? getTodos() : ""))
 			.catch((error) => console.log("error", error));
 	};
 
@@ -75,13 +72,13 @@ const Home = () => {
 				</button>
 			</div>
 			<ul className="bullets">
-				{todoList.map((todo, i) => {
+				{todoList.slice(1).map((todo, i) => {
 					return (
 						<li key={i}>
 							{todo.label}
 							<button
 								onClick={() => {
-									setTodoList(
+									deleteTodo(
 										todoList.filter(
 											(item, index) => index !== i
 										)
@@ -93,7 +90,7 @@ const Home = () => {
 					);
 				})}
 			</ul>
-			<span>{todoList.length} item left</span>
+			<span>{todoList.length - 1} item left</span>
 		</div>
 	);
 };
